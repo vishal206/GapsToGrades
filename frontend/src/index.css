@@ -1,1 +1,39 @@
 @import "tailwindcss";
+
+/* Design tokens — see .claude/skills/design-system/SKILL.md before adding or changing any. */
+@theme {
+  --font-sans: "Onest", ui-sans-serif, system-ui, sans-serif;
+
+  --color-canvas: #eff6fd;
+  --color-surface: #ffffff;
+  --color-ink: #22262b;
+  --color-ink-muted: #8c939c;
+
+  --color-sidebar: #1e2226;
+  --color-sidebar-text: #f1f5f9;
+  --color-sidebar-muted: #8c939c;
+
+  --color-accent-green: #84d61a;
+  --color-accent-yellow: #ffc328;
+  --color-accent-orange: #ff8257;
+  --color-accent-red: #eb3b3b;
+  --color-accent-blue: #2db4e6;
+
+  --color-tint-green: #e7f2da;
+  --color-tint-yellow: #fef2d6;
+  --color-tint-orange: #fde7e4;
+
+  --color-primary: var(--color-accent-green);
+
+  --radius-panel: 1.75rem;
+  --radius-card: 1.5rem;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
