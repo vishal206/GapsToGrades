@@ -29,9 +29,11 @@ All tokens live in `frontend/src/index.css` under `@theme`. **Use the token clas
 | `tint-green` `#e7f2da` | `bg-tint-green` | Row/panel background for a green-status item |
 | `tint-yellow` `#fef2d6` | `bg-tint-yellow` | Row/panel background for a yellow-status item |
 | `tint-orange` `#fde7e4` | `bg-tint-orange` | Row/panel background for an orange-status item |
+| `folder-green`, `folder-yellow`, `folder-orange`, `folder-blue` → the matching `accent-*` | `text-folder-*` (shape fills via `bg-current`/`fill-current`) | Folder fills only. A folder gets one at random when created; the colour has no meaning |
 
 Rules:
 - Status colors are a set: **green = good, yellow = in progress, orange = needs attention.** Keep that meaning everywhere; don't use them decoratively.
+- **Exception — folders.** The `folder-*` tokens alias the accents so folders share the theme's bold hues, and they are the one place those hues are decorative (a folder's colour carries no status). Use them only for folder fills, never `accent-*` directly, so folders can be repointed without touching status UI. `accent-red` is excluded (alerts only). Text on a folder fill is `text-ink` (no `ink-muted` — too little contrast on the fills).
 - A status item pairs a tint background (`bg-tint-*`) with solid accent marks (`bg-accent-*`) of the same hue — e.g. an orange-tinted row with orange score bubbles.
 - Accents are **fills**, never body-text color on the canvas or white (contrast is too low). Text on green/yellow/orange fills is `text-ink`; text on red is `text-white`.
 - `primary` is the one exception allowed as text color, and only on the dark sidebar.
@@ -62,6 +64,7 @@ Titles are sentence case ("Stay up to date"), never Title Case or ALL CAPS (exce
 - Nothing is square-cornered except text inputs inside a rounded-full field.
 - Spacing scale: Tailwind defaults. Common values: `gap-1` between nav items, `gap-3` icon-to-label, `p-4`–`p-5` inside cards, `gap-8` between major regions, `p-4` page gutter.
 - **No shadows.** Separation comes from color (pale-blue canvas vs white surface vs dark sidebar), not elevation.
+  - One exception: the **recess-on-hover** inner shadow on an empty placeholder (the add-folder tile, `FolderShape recessOnHover`). On hover/keyboard focus it fades in (200ms) a faint `ink` shade (16%, 3px blur, 4px down) along the top edges that makes the slot look pressed in; at rest the tile is flat. It is depth *into* the surface, never a drop shadow lifting something off it.
 - Borders only for inputs and dashed filter chips: `border border-ink/20` (dashed for chips).
 
 ## Iconography
@@ -105,12 +108,14 @@ Titles are sentence case ("Stay up to date"), never Title Case or ALL CAPS (exce
 
 **Header actions** — notifications, settings and profile icon buttons (`gap-3`) at the top right of `main`, positioned `absolute top-8 right-6` so they share the screen title's 40px line box without pushing the `h1` down. Profile is a `size-10 rounded-full bg-tint-green text-sm font-medium` initials circle, no ring. Nothing may extend outside the title line box. See `components/header/HeaderActions.tsx`.
 
+**Tooltip** — a plain primary bubble, no tail: `rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-ink`. It follows the mouse while over the wrapped area, 16px to the right of the pointer and vertically centred on it, and sits to the right of the focused element for keyboard users; appears instantly with a 150ms fade + scale. Mouse only — no tooltip on touch. Never use the native `title` tooltip, which lags. Wrap the trigger: `<Tooltip label="…">…</Tooltip>`. See `components/tooltip/Tooltip.tsx`.
+
 **Search field** — `rounded-full border border-ink/20 px-5 py-3` with a separate circular search button (`size-12 rounded-full bg-primary`).
 
 ## Don'ts
 
 - No shadows, gradients, or glassmorphism.
 - No white page background — the page is `canvas`; white (`surface`) is for cards on top of it.
-- No status colors used decoratively, and no mixing hues inside one status item.
+- No status colors used decoratively (folder fills via `folder-*` are the only exception), and no mixing hues inside one status item.
 - No new colors, font sizes or radii without adding a token here first.
 - No accent-colored body text on the canvas or on white.

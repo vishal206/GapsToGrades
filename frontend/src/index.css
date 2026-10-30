@@ -23,6 +23,11 @@
   --color-tint-yellow: #fef2d6;
   --color-tint-orange: #fde7e4;
 
+  --color-folder-green: var(--color-accent-green);
+  --color-folder-yellow: var(--color-accent-yellow);
+  --color-folder-orange: var(--color-accent-orange);
+  --color-folder-blue: var(--color-accent-blue);
+
   --color-primary: var(--color-accent-green);
 
   --radius-panel: 1.75rem;
@@ -35,5 +40,11 @@
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* Tailwind v4 dropped the pointer cursor on buttons; restore it for anything clickable. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
   }
 }
