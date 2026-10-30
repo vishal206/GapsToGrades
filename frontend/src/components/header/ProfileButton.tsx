@@ -1,5 +1,3 @@
-import { Tooltip } from "../tooltip/Tooltip";
-
 type ProfileButtonProps = {
   name: string;
   onClick?: () => void;
@@ -16,15 +14,13 @@ function toInitials(name: string) {
 
 export function ProfileButton({ name, onClick }: ProfileButtonProps) {
   return (
-    <Tooltip label={name}>
-      <button
-        type="button"
-        onClick={onClick}
-        aria-label={`Profile: ${name}`}
-        className="grid size-10 place-items-center rounded-full bg-tint-green text-sm font-medium text-ink transition-shadow duration-200 hover:inset-shadow-recess focus-visible:inset-shadow-recess"
-      >
-        <span aria-hidden="true">{toInitials(name)}</span>
-      </button>
-    </Tooltip>
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={`Profile: ${name}`}
+      className="grid size-10 place-items-center rounded-full bg-tint-green text-sm font-medium text-ink transition-shadow duration-200 hover:inset-shadow-recess focus-visible:inset-shadow-recess"
+    >
+      <span aria-hidden="true">{toInitials(name)}</span>
+    </button>
   );
 }
