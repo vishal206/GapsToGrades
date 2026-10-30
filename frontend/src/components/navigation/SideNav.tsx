@@ -23,8 +23,8 @@ export function SideNav({ activeHref, onNavigate }: SideNavProps) {
     >
       <div className="flex h-full flex-col overflow-hidden px-3">
         <p className="whitespace-nowrap text-xl font-medium tracking-tight text-ink pl-1">
-          {collapsed ? "t" : "theparent"}
-          <span className="text-primary-text">{collapsed ? "." : ".tech"}</span>
+          {collapsed ? "G" : "GapsTo"}
+          <span className="text-primary-text">{collapsed ? "." : "Grades"}</span>
         </p>
 
         <nav aria-label="Main" className="mt-10">

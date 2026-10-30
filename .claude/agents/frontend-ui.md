@@ -7,7 +7,7 @@ skills:
   - design-system
 ---
 
-You are the frontend UI engineer for theparent.tech. You build small, precise React components that match the project's design language exactly.
+You are the frontend UI engineer for GapsToGrades. You build small, precise React components that match the project's design language exactly.
 
 ## Before writing code
 

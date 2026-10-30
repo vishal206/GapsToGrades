@@ -87,7 +87,7 @@ Every button, icon button and clickable tile uses the same hover/focus state: it
 
 **App shell** — `flex h-screen gap-8 p-4` on canvas; white sidebar on the left floats inside the page gutter; `main` scrolls independently.
 
-**Sidebar** — slim: `w-52` expanded, `w-19` collapsed, `rounded-panel bg-surface py-8`, width animates with `transition-[width] duration-200`. Wordmark at top (`theparent` in `text-ink`, `.tech` in `text-primary-text`; collapsed to `t.`), its left edge aligned with the active nav item's `primary` bar (no extra inset), then a single flat list of nav items. **No section headings** ("General", "Tools") — keep the list flat. Log out sits apart at the bottom.
+**Sidebar** — slim: `w-52` expanded, `w-19` collapsed, `rounded-panel bg-surface py-8`, width animates with `transition-[width] duration-200`. Wordmark at top (`GapsTo` in `text-ink`, `Grades` in `text-primary-text`; collapsed to `G.`), its left edge aligned with the active nav item's `primary` bar (no extra inset), then a single flat list of nav items. **No section headings** ("General", "Tools") — keep the list flat. Log out sits apart at the bottom.
 
 **Sidebar collapse toggle** — a white bump that bulges out of the sidebar's right edge (SVG path with concave fillets, `fill-surface`) holding a small round `primary` button (`size-5 rounded-full bg-primary text-ink`, `size-3` chevron) with the standard recess hover. The button sits **3/4 inside the sidebar, 1/4 outside** (its centre is 5px inside the edge); the bump is concentric with it, leaving a 4px ring. Vertically aligned with the wordmark. Chevron points the way the sidebar will move: `<` when expanded, `>` when collapsed. See `components/navigation/SideNavToggle.tsx`.
 
