@@ -4,14 +4,15 @@ import { NavItem } from "./NavItem";
 import { SideNavToggle } from "./SideNavToggle";
 
 const NAV_ITEMS = [
-  { label: "Dashboard", href: "#/dashboard", icon: DashboardIcon },
+  { label: "Dashboard", href: "/dashboard", icon: DashboardIcon },
 ];
 
 type SideNavProps = {
   activeHref: string;
+  onNavigate: (href: string) => void;
 };
 
-export function SideNav({ activeHref }: SideNavProps) {
+export function SideNav({ activeHref, onNavigate }: SideNavProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -34,6 +35,7 @@ export function SideNav({ activeHref }: SideNavProps) {
                   {...item}
                   active={item.href === activeHref}
                   collapsed={collapsed}
+                  onNavigate={onNavigate}
                 />
               </li>
             ))}

@@ -13,6 +13,8 @@ Goal: every component is **small, single-purpose and obvious at a glance**. If a
 frontend/src/
   App.tsx                     # app shell: composes navigation + active screen, nothing else
   index.css                   # Tailwind import + design tokens (@theme) only
+  router/
+    navigation.ts             # usePathname() + navigate(): History API paths (/dashboard/<id>), no "#"
   components/
     <domain>/                 # grouped by what they are for: navigation/, icons/, buttons/, cards/ …
       ComponentName.tsx
@@ -25,6 +27,7 @@ frontend/src/
 - **components/** = reusable, presentational building blocks. They know nothing about which screen they are on.
 - **screens/** = one per page. A screen composes components and owns that page's data/state.
 - A piece used by only one screen lives in that screen's folder. Move it to `components/` **the second time** something else needs it — not before.
+- URLs are clean paths, never `#` hashes. Change them with `navigate()` from `router/navigation.ts`, never `window.location`, which reloads the page and drops in-memory state. Components get navigation as a callback prop (`onNavigate`).
 - Icons live in `components/icons/`, one icon per file, named `<Name>Icon.tsx`.
 
 ## Files

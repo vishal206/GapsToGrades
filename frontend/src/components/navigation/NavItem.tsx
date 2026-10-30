@@ -1,4 +1,4 @@
-import type { ComponentType, SVGProps } from "react";
+import type { ComponentType, MouseEvent, SVGProps } from "react";
 
 type NavItemProps = {
   label: string;
@@ -6,12 +6,21 @@ type NavItemProps = {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   active?: boolean;
   collapsed?: boolean;
+  onNavigate: (href: string) => void;
 };
 
-export function NavItem({ label, href, icon: Icon, active = false, collapsed = false }: NavItemProps) {
+export function NavItem({ label, href, icon: Icon, active = false, collapsed = false, onNavigate }: NavItemProps) {
+  // Plain clicks navigate in place; modified ones (new tab/window) are left to the browser.
+  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    onNavigate(href);
+  }
+
   return (
     <a
       href={href}
+      onClick={handleClick}
       title={collapsed ? label : undefined}
       aria-current={active ? "page" : undefined}
       className={`relative flex items-center gap-3 py-2.5 pl-4 pr-3 text-[15px] transition-colors ${

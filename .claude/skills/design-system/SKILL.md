@@ -27,11 +27,11 @@ All tokens live in `frontend/src/index.css` under `@theme`. **Use the token clas
 | `tint-green` `#e7f2da` | `bg-tint-green` | Row/panel background for a green-status item |
 | `tint-yellow` `#fef2d6` | `bg-tint-yellow` | Row/panel background for a yellow-status item |
 | `tint-orange` `#fde7e4` | `bg-tint-orange` | Row/panel background for an orange-status item |
-| `folder-green`, `folder-yellow`, `folder-orange`, `folder-blue` → the matching `accent-*` | `text-folder-*` (shape fills via `bg-current`/`fill-current`) | Folder fills only. A folder gets one at random when created; the colour has no meaning |
+| `folder-green`, `folder-yellow`, `folder-orange`, `folder-blue` → the matching `accent-*` | `text-folder-*` (shape fills via `bg-current`/`fill-current`) | Folder and material (note) fills only. Each gets one at random when created; the colour has no meaning |
 
 Rules:
 - Status colors are a set: **green = good, yellow = in progress, orange = needs attention.** Keep that meaning everywhere; don't use them decoratively.
-- **Exception — folders.** The `folder-*` tokens alias the accents so folders share the theme's bold hues, and they are the one place those hues are decorative (a folder's colour carries no status). Use them only for folder fills, never `accent-*` directly, so folders can be repointed without touching status UI. `accent-red` is excluded (alerts only). Text on a folder fill is `text-ink` (no `ink-muted` — too little contrast on the fills).
+- **Exception — folders.** The `folder-*` tokens alias the accents so folders share the theme's bold hues, and they are the one place those hues are decorative (a folder's colour carries no status). Use them only for folder and material fills, never `accent-*` directly, so folders can be repointed without touching status UI. `accent-red` is excluded (alerts only). Text on a folder fill is `text-ink` (no `ink-muted` — too little contrast on the fills).
 - A status item pairs a tint background (`bg-tint-*`) with solid accent marks (`bg-accent-*`) of the same hue — e.g. an orange-tinted row with orange score bubbles.
 - Accents are **fills**, never body-text color on the canvas or white (contrast is too low). Text on green/yellow/orange fills is `text-ink`; text on red is `text-white`.
 - The one exception is the `.tech` in the wordmark, which is `text-primary-text` on white: it is a logotype, which is exempt from text-contrast rules. Never use `text-primary` — thin text in the fill shade looks paler than the fills. Nothing else uses brand-coloured text.
@@ -70,11 +70,11 @@ Every button, icon button and clickable tile uses the same hover/focus state: it
 
 - Rounded/round elements (buttons, icon buttons, pills, toggles): the `inset-shadow-recess` token —
   `transition-shadow duration-200 hover:inset-shadow-recess focus-visible:inset-shadow-recess`.
-- Non-rectangular shapes a box-shadow can't follow (the folder with its tab): `FolderShape recessOnHover`, an SVG filter with the same values (std-dev 2 ≈ 4px blur). Change it together with the token.
+- Non-rectangular shapes a box-shadow can't follow (the folder with its tab, the note with its folded corner): `FolderShape` / `NoteShape` with `recessOnHover`, which apply `RecessFilter`, an SVG filter with the same values (std-dev 2 ≈ 4px blur). Change it together with the token.
 - Pair it with the pointer cursor (global in `index.css`) and, where the control has no visible text, a `Tooltip` for its label.
 - Disabled controls get no recess.
 - On dark `bg-ink` fills the `ink` shade barely shows; that is acceptable — don't swap in a different hover for them.
-- Exceptions: sidebar nav links keep their text-colour hover (`text-ink-muted` → `text-ink`), since they are links in a list, not buttons.
+- Exceptions: sidebar nav links and breadcrumb items keep their text-colour hover (`text-ink-muted` → `text-ink`), since they are navigation, not actions.
 
 ## Iconography
 
@@ -118,6 +118,10 @@ Every button, icon button and clickable tile uses the same hover/focus state: it
 **Header actions** — notifications, settings and profile icon buttons (`gap-3`) at the top right of `main`, positioned `absolute top-8 right-6` so they share the screen title's 40px line box without pushing the `h1` down. Profile is a `size-10 rounded-full bg-tint-green text-sm font-medium` initials circle, no ring. Nothing may extend outside the title line box. See `components/header/HeaderActions.tsx`.
 
 **Tooltip** — a plain primary bubble, no tail: `rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-ink`. It follows the mouse while over the wrapped area, 16px to the right of the pointer and vertically centred on it, and sits beside the focused element for keyboard users. It is `fixed` to the viewport, flips to the left of the pointer when it would cross the right edge, and is clamped 8px inside the top and bottom edges; appears instantly with a 150ms fade + scale. Mouse only — no tooltip on touch. Never use the native `title` tooltip, which lags. Wrap the trigger: `<Tooltip label="…">…</Tooltip>`. See `components/tooltip/Tooltip.tsx`.
+
+**Folder and note tiles** — a `flex flex-wrap gap-6` row; each shape sets its own width at the same height so they line up: `FolderShape` `w-56 aspect-20/17`, `NoteShape` `w-42 aspect-15/17`. `FolderShape` (tab top-left, like `FolderIcon`) is a folder; `NoteShape` (top-right corner folded over, flap shaded `ink/10`, like `NoteIcon`) is a material. Filled with a `folder-*` colour, or `surface` with a centred `size-12` plus for the "Add folder" / "Add material" tiles. Inside a folder the two add tiles sit side by side.
+
+**Breadcrumb title** — inside a folder the screen title becomes `Dashboard › parent › current`, same size and line box as the `h1`: ancestors are `text-ink-muted` buttons, separated by a `size-6` `ChevronRightIcon` in `text-ink-muted`; the current folder is the `h1` in `text-ink`. `pr-40` keeps it clear of the header actions; long names truncate. See `screens/dashboard/DashboardTitle.tsx`.
 
 **Search field** — `rounded-full border border-ink/20 px-5 py-3` with a separate circular search button (`size-12 rounded-full bg-primary`).
 
