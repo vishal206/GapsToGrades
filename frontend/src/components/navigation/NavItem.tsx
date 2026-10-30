@@ -15,7 +15,7 @@ export function NavItem({ label, href, icon: Icon, active = false, collapsed = f
       title={collapsed ? label : undefined}
       aria-current={active ? "page" : undefined}
       className={`relative flex items-center gap-3 py-2.5 pl-4 pr-3 text-[15px] transition-colors ${
-        active ? "text-primary" : "text-sidebar-text hover:text-white"
+        active ? "text-ink" : "text-ink-muted hover:text-ink"
       }`}
     >
       {active && (

@@ -5,7 +5,7 @@ description: The visual design language for frontend/ — color tokens, typograp
 
 # Design system
 
-The look: **bright, friendly, flat.** A pale-blue canvas, white cards with large rounded corners, one dark charcoal sidebar, and bold saturated accents — lime green, warm yellow, coral orange — used as status/category fills, each with a pale tint for row or panel backgrounds. No drop shadows, almost no borders, generous whitespace, dark pill buttons that press in on hover.
+The look: **bright, friendly, flat.** A pale-blue canvas, a white sidebar and white cards with large rounded corners, and bold saturated accents — lime green, warm yellow, coral orange — used as status/category fills, each with a pale tint for row or panel backgrounds. No drop shadows, almost no borders, generous whitespace, pill buttons that press in on hover. The only dark colour is `ink` text — there are no dark panels or surfaces.
 
 All tokens live in `frontend/src/index.css` under `@theme`. **Use the token classes. Never hard-code hex values.** If a design truly needs a new value, add a token there first and document it here.
 
@@ -14,18 +14,16 @@ All tokens live in `frontend/src/index.css` under `@theme`. **Use the token clas
 | Token | Tailwind classes | Use for |
 |---|---|---|
 | `canvas` `#eff6fd` | `bg-canvas` | Page background (pale blue) |
-| `surface` `#ffffff` | `bg-surface` | Cards, tables, secondary buttons, inactive pills, icon buttons, `+N` avatar |
+| `surface` `#ffffff` | `bg-surface` | Sidebar, cards, tables, secondary buttons, inactive pills, icon buttons, `+N` avatar |
 | `ink` `#22262b` | `text-ink`, `bg-ink` | Primary text; primary buttons, active pills/tabs, "today" highlights |
 | `ink-muted` `#8c939c` | `text-ink-muted` | Secondary text: meta lines, times, column headers, field labels |
-| `sidebar` `#1e2226` | `bg-sidebar` | The left navigation panel only |
-| `sidebar-text` `#f1f5f9` | `text-sidebar-text` | Nav item labels on the sidebar |
-| `sidebar-muted` `#8c939c` | `text-sidebar-muted` | Secondary text on the sidebar (rare — the sidebar has no section labels) |
-| `primary` → `accent-green` | `text-primary`, `bg-primary` | **The brand accent.** Active nav item, brand highlight, collapse toggle, search button, focus states. Components use `primary`, never the raw accent, for this role. |
+| `primary` → `accent-blue` | `bg-primary` | **The brand accent.** Active nav bar, collapse toggle, tooltip, search button, focus states. Components use `primary`, never the raw accent, for this role. |
+| `primary-text` `#1a94c8` | `text-primary-text` | The brand accent as text on white (the wordmark's `.tech`). A darker shade of `primary` so thin strokes read as the same blue as the fills; 3.4:1 on white. |
 | `accent-green` `#84d61a` | `bg-accent-green` | Status: good / mastered / on track |
 | `accent-yellow` `#ffc328` | `bg-accent-yellow` | Status: in progress / working towards |
 | `accent-orange` `#ff8257` | `bg-accent-orange` | Status: needs attention / low score |
 | `accent-red` `#eb3b3b` | `bg-accent-red` | Small notification/alert count badges only |
-| `accent-blue` `#2db4e6` | `bg-accent-blue` | Informational highlights; use sparingly |
+| `accent-blue` `#2db4e6` | `bg-accent-blue` | The brand accent (via `primary`); otherwise informational highlights, used sparingly |
 | `tint-green` `#e7f2da` | `bg-tint-green` | Row/panel background for a green-status item |
 | `tint-yellow` `#fef2d6` | `bg-tint-yellow` | Row/panel background for a yellow-status item |
 | `tint-orange` `#fde7e4` | `bg-tint-orange` | Row/panel background for an orange-status item |
@@ -36,9 +34,9 @@ Rules:
 - **Exception — folders.** The `folder-*` tokens alias the accents so folders share the theme's bold hues, and they are the one place those hues are decorative (a folder's colour carries no status). Use them only for folder fills, never `accent-*` directly, so folders can be repointed without touching status UI. `accent-red` is excluded (alerts only). Text on a folder fill is `text-ink` (no `ink-muted` — too little contrast on the fills).
 - A status item pairs a tint background (`bg-tint-*`) with solid accent marks (`bg-accent-*`) of the same hue — e.g. an orange-tinted row with orange score bubbles.
 - Accents are **fills**, never body-text color on the canvas or white (contrast is too low). Text on green/yellow/orange fills is `text-ink`; text on red is `text-white`.
-- `primary` is the one exception allowed as text color, and only on the dark sidebar.
+- The one exception is the `.tech` in the wordmark, which is `text-primary-text` on white: it is a logotype, which is exempt from text-contrast rules. Never use `text-primary` — thin text in the fill shade looks paler than the fills. Nothing else uses brand-coloured text.
 - Muted text uses `text-ink-muted`; do not fake it with opacity.
-- To change the brand accent, repoint `--color-primary` in `index.css` — don't edit components.
+- To change the brand accent, repoint `--color-primary` in `index.css` and set `--color-primary-text` to a darker shade of the same hue — don't edit components.
 
 ## Typography
 
@@ -76,7 +74,7 @@ Every button, icon button and clickable tile uses the same hover/focus state: it
 - Pair it with the pointer cursor (global in `index.css`) and, where the control has no visible text, a `Tooltip` for its label.
 - Disabled controls get no recess.
 - On dark `bg-ink` fills the `ink` shade barely shows; that is acceptable — don't swap in a different hover for them.
-- Exceptions: sidebar nav links keep their text-colour hover (`text-sidebar-text` → `text-white`), since they are links in a list, not buttons.
+- Exceptions: sidebar nav links keep their text-colour hover (`text-ink-muted` → `text-ink`), since they are links in a list, not buttons.
 
 ## Iconography
 
@@ -87,15 +85,15 @@ Every button, icon button and clickable tile uses the same hover/focus state: it
 
 ## Component patterns
 
-**App shell** — `flex h-screen gap-8 p-4` on canvas; black sidebar on the left floats inside the page gutter; `main` scrolls independently.
+**App shell** — `flex h-screen gap-8 p-4` on canvas; white sidebar on the left floats inside the page gutter; `main` scrolls independently.
 
-**Sidebar** — slim: `w-52` expanded, `w-19` collapsed, `rounded-panel bg-sidebar py-8`, width animates with `transition-[width] duration-200`. Wordmark at top (`theparent.tech`, collapsed to `t.`), its left edge aligned with the active nav item's `primary` bar (no extra inset), then a single flat list of nav items. **No section headings** ("General", "Tools") — keep the list flat. Log out sits apart at the bottom.
+**Sidebar** — slim: `w-52` expanded, `w-19` collapsed, `rounded-panel bg-surface py-8`, width animates with `transition-[width] duration-200`. Wordmark at top (`theparent` in `text-ink`, `.tech` in `text-primary-text`; collapsed to `t.`), its left edge aligned with the active nav item's `primary` bar (no extra inset), then a single flat list of nav items. **No section headings** ("General", "Tools") — keep the list flat. Log out sits apart at the bottom.
 
-**Sidebar collapse toggle** — a black bump that bulges out of the sidebar's right edge (SVG path with concave fillets, `fill-sidebar`) holding a small round `primary` button (`size-5 rounded-full bg-primary text-ink`, `size-3` chevron) with the standard recess hover. The button sits **3/4 inside the sidebar, 1/4 outside** (its centre is 5px inside the edge); the dark bump is concentric with it, leaving a 4px ring. Vertically aligned with the wordmark. Chevron points the way the sidebar will move: `<` when expanded, `>` when collapsed. See `components/navigation/SideNavToggle.tsx`.
+**Sidebar collapse toggle** — a white bump that bulges out of the sidebar's right edge (SVG path with concave fillets, `fill-surface`) holding a small round `primary` button (`size-5 rounded-full bg-primary text-ink`, `size-3` chevron) with the standard recess hover. The button sits **3/4 inside the sidebar, 1/4 outside** (its centre is 5px inside the edge); the bump is concentric with it, leaving a 4px ring. Vertically aligned with the wordmark. Chevron points the way the sidebar will move: `<` when expanded, `>` when collapsed. See `components/navigation/SideNavToggle.tsx`.
 
 **Nav item** — icon + label, `gap-3 py-2.5 pl-4`. When the sidebar is collapsed the label becomes `sr-only` and is shown as a `title` tooltip.
-- Default: `text-sidebar-text`, hover `text-white`.
-- Active: `text-primary` plus a 2px bar on the left edge (`absolute left-0 h-6 w-0.5 rounded-full bg-primary`), and `aria-current="page"`.
+- Default: `text-ink-muted`, hover `text-ink`.
+- Active: `text-ink` plus a 2px bar on the left edge (`absolute left-0 h-6 w-0.5 rounded-full bg-primary`), and `aria-current="page"`.
 
 **Primary button** — `rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white`. All buttons use the recess hover (see *Hover and focus*).
 **Secondary / disabled button** — `rounded-full bg-surface text-ink` (disabled: `bg-ink-muted/30 text-ink-muted`).

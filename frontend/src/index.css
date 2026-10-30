@@ -9,10 +9,6 @@
   --color-ink: #22262b;
   --color-ink-muted: #8c939c;
 
-  --color-sidebar: #1e2226;
-  --color-sidebar-text: #f1f5f9;
-  --color-sidebar-muted: #8c939c;
-
   --color-accent-green: #84d61a;
   --color-accent-yellow: #ffc328;
   --color-accent-orange: #ff8257;
@@ -28,7 +24,10 @@
   --color-folder-orange: var(--color-accent-orange);
   --color-folder-blue: var(--color-accent-blue);
 
-  --color-primary: var(--color-accent-green);
+  --color-primary: var(--color-accent-blue);
+  /* A darker shade of primary for brand text on white, where thin strokes make the fill shade look
+     washed out. Change it together with --color-primary. */
+  --color-primary-text: #1a94c8;
 
   /* The hover/focus "press in" for every button (see design-system: Hover and focus). FolderShape's SVG
      filter uses the same values for the folder outline. */

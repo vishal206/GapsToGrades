@@ -16,14 +16,14 @@ export function SideNav({ activeHref }: SideNavProps) {
 
   return (
     <aside
-      className={`relative shrink-0 rounded-panel bg-sidebar py-8 transition-[width] duration-200 ${
+      className={`relative shrink-0 rounded-panel bg-surface py-8 transition-[width] duration-200 ${
         collapsed ? "w-19" : "w-52"
       }`}
     >
       <div className="flex h-full flex-col overflow-hidden px-3">
-        <p className="whitespace-nowrap text-xl font-medium tracking-tight text-white">
+        <p className="whitespace-nowrap text-xl font-medium tracking-tight text-ink">
           {collapsed ? "t" : "theparent"}
-          <span className="text-primary">{collapsed ? "." : ".tech"}</span>
+          <span className="text-primary-text">{collapsed ? "." : ".tech"}</span>
         </p>
 
         <nav aria-label="Main" className="mt-10">
