@@ -22,11 +22,11 @@ export function FolderShape({ color = "text-surface", recessOnHover = false, chi
             <feComponentTransfer in="SourceAlpha" result="outside">
               <feFuncA type="table" tableValues="1 0" />
             </feComponentTransfer>
-            <feGaussianBlur in="outside" stdDeviation="3" />
-            <feOffset dy="4" result="shade" />
+            <feGaussianBlur in="outside" stdDeviation="2" />
+            <feOffset dy="2" result="shade" />
             <feFlood
               floodColor="currentColor"
-              className="[flood-opacity:0] transition-[flood-opacity] duration-200 group-hover:[flood-opacity:0.16] group-has-focus-visible:[flood-opacity:0.16]"
+              className="[flood-opacity:0] transition-[flood-opacity] duration-200 group-hover:[flood-opacity:0.1] group-has-focus-visible:[flood-opacity:0.1]"
             />
             <feComposite in2="shade" operator="in" />
             <feComposite in2="SourceAlpha" operator="in" />

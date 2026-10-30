@@ -5,7 +5,7 @@ description: The visual design language for frontend/ — color tokens, typograp
 
 # Design system
 
-The look: **bright, friendly, flat.** A pale-blue canvas, white cards with large rounded corners, one dark charcoal sidebar, and bold saturated accents — lime green, warm yellow, coral orange — used as status/category fills, each with a pale tint for row or panel backgrounds. No shadows, almost no borders, generous whitespace, dark pill buttons.
+The look: **bright, friendly, flat.** A pale-blue canvas, white cards with large rounded corners, one dark charcoal sidebar, and bold saturated accents — lime green, warm yellow, coral orange — used as status/category fills, each with a pale tint for row or panel backgrounds. No drop shadows, almost no borders, generous whitespace, dark pill buttons that press in on hover.
 
 All tokens live in `frontend/src/index.css` under `@theme`. **Use the token classes. Never hard-code hex values.** If a design truly needs a new value, add a token there first and document it here.
 
@@ -63,9 +63,20 @@ Titles are sentence case ("Stay up to date"), never Title Case or ALL CAPS (exce
 - Radius tokens: `rounded-panel` (1.75rem) for the sidebar and large containers; `rounded-card` (1.5rem) for cards; `rounded-full` for buttons, pills, chips, avatars, icon buttons.
 - Nothing is square-cornered except text inputs inside a rounded-full field.
 - Spacing scale: Tailwind defaults. Common values: `gap-1` between nav items, `gap-3` icon-to-label, `p-4`–`p-5` inside cards, `gap-8` between major regions, `p-4` page gutter.
-- **No shadows.** Separation comes from color (pale-blue canvas vs white surface vs dark sidebar), not elevation.
-  - One exception: the **recess-on-hover** inner shadow on an empty placeholder (the add-folder tile, `FolderShape recessOnHover`). On hover/keyboard focus it fades in (200ms) a faint `ink` shade (16%, 3px blur, 4px down) along the top edges that makes the slot look pressed in; at rest the tile is flat. It is depth *into* the surface, never a drop shadow lifting something off it.
+- **No drop shadows.** Separation comes from color (pale-blue canvas vs white surface vs dark sidebar), not elevation. The only shadow in the system is the inner **recess** below, and only as a hover/focus state.
 - Borders only for inputs and dashed filter chips: `border border-ink/20` (dashed for chips).
+
+## Hover and focus: the recess
+
+Every button, icon button and clickable tile uses the same hover/focus state: it **presses in**. A faint `ink` inner shadow (10%, 2px down, 4px blur) fades in along the top edges over 200ms; at rest the element is flat. No colour change, no scaling, no lift.
+
+- Rounded/round elements (buttons, icon buttons, pills, toggles): the `inset-shadow-recess` token —
+  `transition-shadow duration-200 hover:inset-shadow-recess focus-visible:inset-shadow-recess`.
+- Non-rectangular shapes a box-shadow can't follow (the folder with its tab): `FolderShape recessOnHover`, an SVG filter with the same values (std-dev 2 ≈ 4px blur). Change it together with the token.
+- Pair it with the pointer cursor (global in `index.css`) and, where the control has no visible text, a `Tooltip` for its label.
+- Disabled controls get no recess.
+- On dark `bg-ink` fills the `ink` shade barely shows; that is acceptable — don't swap in a different hover for them.
+- Exceptions: sidebar nav links keep their text-colour hover (`text-sidebar-text` → `text-white`), since they are links in a list, not buttons.
 
 ## Iconography
 
@@ -80,15 +91,15 @@ Titles are sentence case ("Stay up to date"), never Title Case or ALL CAPS (exce
 
 **Sidebar** — slim: `w-52` expanded, `w-19` collapsed, `rounded-panel bg-sidebar py-8`, width animates with `transition-[width] duration-200`. Wordmark at top (`theparent.tech`, collapsed to `t.`), its left edge aligned with the active nav item's `primary` bar (no extra inset), then a single flat list of nav items. **No section headings** ("General", "Tools") — keep the list flat. Log out sits apart at the bottom.
 
-**Sidebar collapse toggle** — a black bump that bulges out of the sidebar's right edge (SVG path with concave fillets, `fill-sidebar`) holding a small round `primary` button (`size-5 rounded-full bg-primary text-ink`, `size-3` chevron). The button sits **3/4 inside the sidebar, 1/4 outside** (its centre is 5px inside the edge); the dark bump is concentric with it, leaving a 4px ring. Vertically aligned with the wordmark. Chevron points the way the sidebar will move: `<` when expanded, `>` when collapsed. See `components/navigation/SideNavToggle.tsx`.
+**Sidebar collapse toggle** — a black bump that bulges out of the sidebar's right edge (SVG path with concave fillets, `fill-sidebar`) holding a small round `primary` button (`size-5 rounded-full bg-primary text-ink`, `size-3` chevron) with the standard recess hover. The button sits **3/4 inside the sidebar, 1/4 outside** (its centre is 5px inside the edge); the dark bump is concentric with it, leaving a 4px ring. Vertically aligned with the wordmark. Chevron points the way the sidebar will move: `<` when expanded, `>` when collapsed. See `components/navigation/SideNavToggle.tsx`.
 
 **Nav item** — icon + label, `gap-3 py-2.5 pl-4`. When the sidebar is collapsed the label becomes `sr-only` and is shown as a `title` tooltip.
 - Default: `text-sidebar-text`, hover `text-white`.
 - Active: `text-primary` plus a 2px bar on the left edge (`absolute left-0 h-6 w-0.5 rounded-full bg-primary`), and `aria-current="page"`.
 
-**Primary button** — `rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white`.
+**Primary button** — `rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white`. All buttons use the recess hover (see *Hover and focus*).
 **Secondary / disabled button** — `rounded-full bg-surface text-ink` (disabled: `bg-ink-muted/30 text-ink-muted`).
-**Icon button** — `size-10 rounded-full grid place-items-center`, `bg-surface` (default) or `bg-ink text-white` (emphasis). 40px so a row of them fits exactly inside the screen title's 40px line box; a count badge sits at `top-0 right-0`, inside that box.
+**Icon button** — `size-10 rounded-full grid place-items-center`, `bg-surface` (default) or `bg-ink text-white` (emphasis). Recess hover, and the label shows in a `Tooltip`. 40px so a row of them fits exactly inside the screen title's 40px line box; a count badge sits at `top-0 right-0`, inside that box.
 
 **Segmented toggle (Today / Week / Month)** — row of `rounded-full px-4 py-1.5 text-sm`; inactive `bg-surface`, active `bg-ink text-white`.
 
@@ -108,13 +119,14 @@ Titles are sentence case ("Stay up to date"), never Title Case or ALL CAPS (exce
 
 **Header actions** — notifications, settings and profile icon buttons (`gap-3`) at the top right of `main`, positioned `absolute top-8 right-6` so they share the screen title's 40px line box without pushing the `h1` down. Profile is a `size-10 rounded-full bg-tint-green text-sm font-medium` initials circle, no ring. Nothing may extend outside the title line box. See `components/header/HeaderActions.tsx`.
 
-**Tooltip** — a plain primary bubble, no tail: `rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-ink`. It follows the mouse while over the wrapped area, 16px to the right of the pointer and vertically centred on it, and sits to the right of the focused element for keyboard users; appears instantly with a 150ms fade + scale. Mouse only — no tooltip on touch. Never use the native `title` tooltip, which lags. Wrap the trigger: `<Tooltip label="…">…</Tooltip>`. See `components/tooltip/Tooltip.tsx`.
+**Tooltip** — a plain primary bubble, no tail: `rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-ink`. It follows the mouse while over the wrapped area, 16px to the right of the pointer and vertically centred on it, and sits beside the focused element for keyboard users. It is `fixed` to the viewport, flips to the left of the pointer when it would cross the right edge, and is clamped 8px inside the top and bottom edges; appears instantly with a 150ms fade + scale. Mouse only — no tooltip on touch. Never use the native `title` tooltip, which lags. Wrap the trigger: `<Tooltip label="…">…</Tooltip>`. See `components/tooltip/Tooltip.tsx`.
 
 **Search field** — `rounded-full border border-ink/20 px-5 py-3` with a separate circular search button (`size-12 rounded-full bg-primary`).
 
 ## Don'ts
 
-- No shadows, gradients, or glassmorphism.
+- No drop shadows, gradients, or glassmorphism. The recess inner shadow is the hover state, not decoration — never show it at rest.
+- No colour-change or scale hovers on buttons; use the recess.
 - No white page background — the page is `canvas`; white (`surface`) is for cards on top of it.
 - No status colors used decoratively (folder fills via `folder-*` are the only exception), and no mixing hues inside one status item.
 - No new colors, font sizes or radii without adding a token here first.

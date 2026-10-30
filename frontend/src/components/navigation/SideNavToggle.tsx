@@ -18,7 +18,7 @@ export function SideNavToggle({ collapsed, onToggle }: SideNavToggleProps) {
         onClick={onToggle}
         aria-expanded={!collapsed}
         aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
-        className="absolute -left-3.5 top-3.5 grid size-5 place-items-center rounded-full bg-primary text-ink transition-transform hover:scale-110"
+        className="absolute -left-3.5 top-3.5 grid size-5 place-items-center rounded-full bg-primary text-ink transition-shadow duration-200 hover:inset-shadow-recess focus-visible:inset-shadow-recess"
       >
         <ChevronRightIcon className={`size-3 transition-transform ${collapsed ? "" : "rotate-180"}`} />
       </button>

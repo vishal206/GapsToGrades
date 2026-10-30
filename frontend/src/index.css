@@ -30,6 +30,10 @@
 
   --color-primary: var(--color-accent-green);
 
+  /* The hover/focus "press in" for every button (see design-system: Hover and focus). FolderShape's SVG
+     filter uses the same values for the folder outline. */
+  --inset-shadow-recess: inset 0 2px 4px color-mix(in srgb, var(--color-ink) 10%, transparent);
+
   --radius-panel: 1.75rem;
   --radius-card: 1.5rem;
 }
