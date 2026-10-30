@@ -85,7 +85,7 @@ Titles are sentence case ("Stay up to date"), never Title Case or ALL CAPS (exce
 
 **Primary button** — `rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white`.
 **Secondary / disabled button** — `rounded-full bg-surface text-ink` (disabled: `bg-ink-muted/30 text-ink-muted`).
-**Icon button** — `size-11 rounded-full grid place-items-center`, `bg-surface` (default) or `bg-ink text-white` (emphasis).
+**Icon button** — `size-10 rounded-full grid place-items-center`, `bg-surface` (default) or `bg-ink text-white` (emphasis). 40px so a row of them fits exactly inside the screen title's 40px line box; a count badge sits at `top-0 right-0`, inside that box.
 
 **Segmented toggle (Today / Week / Month)** — row of `rounded-full px-4 py-1.5 text-sm`; inactive `bg-surface`, active `bg-ink text-white`.
 
@@ -102,6 +102,8 @@ Titles are sentence case ("Stay up to date"), never Title Case or ALL CAPS (exce
 **Filter chip** — `rounded-full border border-dashed border-ink/30 px-3 py-1 text-xs`.
 
 **Avatar stack** — `size-7 rounded-full text-xs font-medium` initials on tint fills, overlapping with `-ml-1.5` and a `ring-2 ring-surface`; overflow shown as `+3` on a `bg-surface` circle.
+
+**Header actions** — notifications, settings and profile icon buttons (`gap-3`) at the top right of `main`, positioned `absolute top-8 right-6` so they share the screen title's 40px line box without pushing the `h1` down. Profile is a `size-10 rounded-full bg-tint-green text-sm font-medium` initials circle, no ring. Nothing may extend outside the title line box. See `components/header/HeaderActions.tsx`.
 
 **Search field** — `rounded-full border border-ink/20 px-5 py-3` with a separate circular search button (`size-12 rounded-full bg-primary`).
 
